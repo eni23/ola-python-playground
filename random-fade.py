@@ -4,7 +4,7 @@
 import led,random,time
 
 SLEEPTIME=0.08
-FADESIZE=200
+FADESIZE=80
 
 def interpolate_tuple( start, end, steps ):
     start_red = start[0]
@@ -24,13 +24,25 @@ def interpolate_tuple( start, end, steps ):
         buf.append([r,g,b])
     return buf
 
-def random_color():
-    r=random.randrange(0, 155)
-    g=random.randrange(0, 155)
-    b=random.randrange(0, 155)
-    return [r,g,b]
-    
 
+def randlist(array):
+    random.shuffle(array)
+    return array
+
+def random_color():
+    unc=[random.randrange(0, 255),random.randrange(0, 255),random.randrange(0, 255)]
+    hc=0
+    cln=[]
+    for c in unc:
+		if c>30:
+			hc+=1
+    if hc>2:
+		cln=randlist([unc[0],unc[1],random.randrange(0, 5)])
+    else:
+        cln=unc		
+    return cln
+	
+print random_color()
 
 led=led.led()
 
