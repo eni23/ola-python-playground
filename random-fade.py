@@ -34,10 +34,10 @@ def random_color():
     hc=0
     cln=[]
     for c in unc:
-		if c>30:
-			hc+=1
+        if c>30:
+            hc+=1
     if hc>2:
-		cln=randlist([unc[0],unc[1],random.randrange(0, 5)])
+	    cln=randlist([unc[0],unc[1],random.randrange(0, 5)])
     else:
         cln=unc		
     return cln
