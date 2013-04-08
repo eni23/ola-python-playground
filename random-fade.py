@@ -37,25 +37,20 @@ def random_color():
         if c>30:
             hc+=1
     if hc>2:
-	    cln=randlist([unc[0],unc[1],random.randrange(0, 5)])
+        cln=randlist([unc[0],unc[1],random.randrange(0, 5)])
     else:
-        cln=unc		
+        cln=unc        
     return cln
-	
-print random_color()
-
+    
+    
 led=led.led()
-
 col0=random_color()
 while True:
-	col1=random_color()
-	print col0,col1
-	colorlist=interpolate_tuple(col0,col1,FADESIZE)
-	for color in colorlist:
-		led.rgbw(color[0],color[1],color[2])
-		time.sleep(SLEEPTIME)
-	col0=col1
-	col1=random_color()
-	
-	
-
+    col1=random_color()
+    print col0,col1
+    colorlist=interpolate_tuple(col0,col1,FADESIZE)
+    for color in colorlist:
+        led.rgbw(color[0],color[1],color[2])
+        time.sleep(SLEEPTIME)
+    col0=col1
+    col1=random_color()
