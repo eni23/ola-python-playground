@@ -24,11 +24,6 @@ def interpolate_tuple( start, end, steps ):
         buf.append([r,g,b])
     return buf
 
-
-def randlist(array):
-    random.shuffle(array)
-    return array
-
 def random_color():
     unc=[random.randrange(0, 255),random.randrange(0, 255),random.randrange(0, 255)]
     hc=0
@@ -37,17 +32,16 @@ def random_color():
         if c>30:
             hc+=1
     if hc>2:
-        cln=randlist([unc[0],unc[1],random.randrange(0, 5)])
+        cln=[unc[0],unc[1],random.randrange(0, 5)]
     else:
-        cln=unc        
+        cln=unc
+    random.shuffle(cln)
     return cln
-    
     
 led=led.led()
 col0=random_color()
 while True:
     col1=random_color()
-    print col0,col1
     colorlist=interpolate_tuple(col0,col1,FADESIZE)
     for color in colorlist:
         led.rgbw(color[0],color[1],color[2])
