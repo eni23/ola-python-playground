@@ -10,7 +10,7 @@ pygtk.require('2.0')
 DMX_CHANNEL_R=0
 DMX_CHANNEL_G=1
 DMX_CHANNEL_B=2
-DMX_CHANNEL_DIM=5
+DMX_CHANNEL_DIM=4
 
 class dmx_rgb_controller:
 	

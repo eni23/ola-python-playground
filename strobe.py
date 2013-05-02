@@ -4,7 +4,7 @@
 import time,led
 
 
-SLEEPTIME=0.08
+SLEEPTIME=0.09
 
 
 led=led.led()	

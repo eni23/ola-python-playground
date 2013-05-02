@@ -14,24 +14,30 @@ import pygame,time,trackspot,array
 class App:
 	
 	
+	
+	
 	def __init__(self):
 		#init joystick
 		pygame.init()
 		self.j = pygame.joystick.Joystick(0)
 		self.j.init()
 		print 'Initialized Joystick : %s' % self.j.get_name()
-				
+		
+		#init rumble
+		'''self.rumble_init()
+		self.rumble(3)'''
+		
 		#init dmx device
 		self.scanner=trackspot.trackspot()
 		# gobo: 0 (open), shutter: 1 (open), color: 0 (0 open), 100%dimmer
-		self.scanner.set_gobo(0)
+		#self.scanner.set_gobo(0)
 		self.gobo_num=0
-		self.scanner.set_shutter(1)
+		#self.scanner.set_shutter(1)
 		self.shutter_num=1
-		self.scanner.set_color(0)
+		#self.scanner.set_color(0)
 		self.color_num=0
-		self.scanner.dim(255)
-		self.scanner.mspeed(255)
+		#self.scanner.dim(255)
+		#self.scanner.mspeed(255)
 		self.time_gobo=self.utime()
 		self.time_color=self.utime()
 		self.rmbl_time=self.utime()
@@ -53,19 +59,40 @@ class App:
 		self.time_sav=0
 		self.time_rst=0
 		
+		#dim 100%
+		self.scanner.send_dmx(5,255);
+		
+		#
+		
 		
 	#function for convert ps3axis in dmx-range
 	def axisrange2dmxrange(self,axis_val):
 		return int(((axis_val - (-1))*255) / 2 )
 		
-	def axis_calc(self,val,mr=1):
+	def axis_calc(self,val,mr=2):
 		return int(((val - (-1))*mr) / 2 )
 
 	def utime(self):
 		return int(float("%6f" % time.time())*10000)
 	
+	'''def rumble_init(self):
+		self.ffdev = pyforce.pyforce();
+		self.ffdev.open("/dev/input/event16");
+		self.ffdev.set_gain(100);
+		self.ffid_1 = self.ffdev.upload_rumble_effect(0xFFFF, 0xFFFF, 100);
+
+	def rumble(self,num=5):
+		for i in range(1,num+1):
+			print "*rumble*"
+			self.ffdev.play(self.ffid_1);
+	
+	def rumble_stop(self):
+		self.ffdev.stop(self.ffid_1)'''
+	
+	
 	
 	def main(self):
+		
 		
 		while True:
 			pygame.event.pump()
@@ -101,7 +128,7 @@ class App:
 					#self.ff.stop()
 					pygame.quit()
 					quit()
-				
+				'''
 				#color-changer +-
 				elif (i==8) and (self.j.get_button(i) != 0):
 					time_act=self.utime()
@@ -180,7 +207,7 @@ class App:
 						self.act_ms=int(self.act_ms)+5
 						self.scanner.mspeed(self.act_ms)	
 						print("mspeed="+str(self.act_ms));
-				
+				'''
 
 			#tilt <>
 			if self.j.get_axis(0) != 0.00:
@@ -194,7 +221,7 @@ class App:
 					ac=self.axis_calc(ax)
 					if ((self.pos_buf[0]-ac)>-1):
 						self.pos_buf[0]=self.pos_buf[0]-ac
-				self.scanner.tilt(self.pos_buf[0])	
+				self.scanner.pan(self.pos_buf[0])	
 				print(self.pos_buf)
 		
 			#pan ^
@@ -210,10 +237,10 @@ class App:
 					if ((self.pos_buf[1]-ac)>-1):
 						self.pos_buf[1]=self.pos_buf[1]-ac
 				print(self.pos_buf)
-				self.scanner.pan(self.pos_buf[1])
+				self.scanner.tilt(self.pos_buf[1])
 
 			
-			self.clk.tick(2) # max 40 fps
+			self.clk.tick(40) # max 40 fps
 
 		
 			
